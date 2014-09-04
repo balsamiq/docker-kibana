@@ -1,5 +1,7 @@
-FROM stackbrew/ubuntu:trusty
+FROM phusion/baseimage:0.9.12
 MAINTAINER Luis Arias <luis@balsamiq.com>
+
+ENV HOME /root
 
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install wget nginx-full apache2-utils supervisor
@@ -20,7 +22,10 @@ ENV KIBANA_SECURE true
 ENV KIBANA_USER kibana
 ENV KIBANA_PASSWORD kibana
 
+### Configure runit
+RUN mkdir /etc/service/nginx
+ADD runit/nginx.sh /etc/service/nginx/run
+
 EXPOSE 80
 
-ADD supervisord.conf /etc/supervisor/supervisord.conf
-CMD ["/usr/bin/supervisord"]
+CMD ["/sbin/my_init"]
