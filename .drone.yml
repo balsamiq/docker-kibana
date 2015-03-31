@@ -1,0 +1,10 @@
+image: bradrydzewski/python:2.7-scrapinghub
+
+script:
+  - git restore-mtime
+
+publish:
+  docker:
+    docker_host: $DOCKER_HOST
+    image_name: i.scrapinghub.com/kibana4/$CI_BRANCH
+    keep_build: true
